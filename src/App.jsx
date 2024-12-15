@@ -23,7 +23,7 @@ function App() {
 }
 function Card({children}){
     return <div style={{
-        background:"white", height:"300px",width:"300px", color:"black",padding:"10px",margin:"15px"
+        background:"black", height:"300px",width:"300px", color:"black",padding:"10px",margin:"15px"
     }}>{children}</div>
 }
 export default App
