@@ -1,32 +1,39 @@
-import { useState, useRef ,} from 'react'
-import { useEffect } from 'react';
-import { BrowserRouter,Routes,Route,Link , Outlet} from 'react-router-dom';
+import { useState, useRef ,useContext, createContext,} from 'react'
+
 import './App.css'
+const BulbContext = createContext();
 function App() {
+   const [bulbOn,setBulbOn] = useState(true);
+
  return <div>
+   <BulbContext.Provider value={{
+      bulbOn: bulbOn,
+      setBulbOn: setBulbOn
+   }}>
  <LightBulb/>
+ </BulbContext.Provider>
+
  </div>
 }
 function LightBulb() {
-   const [bulbOn,setBulbOn] = useState(true);
-
+   
    return <div>
-   <BulbState bulbOn = {bulbOn}/>
-   <ToggleBulbState bulbOn = {bulbOn} 
-   setBulbOn={setBulbOn}/>
+   <BulbState />
+   <ToggleBulbState />
    </div>
 }
 
-function BulbState({bulbOn}){
-   
+function BulbState(){
+  const {bulbOn} = useContext(BulbContext) ;
  return <div> 
  {bulbOn ? "BulbOn" : "Bulb off"}
 </div>
 }
 
-function ToggleBulbState({setBulbOn,bulbOn}){
+function ToggleBulbState(){
+   const {bulbOn,setBulbOn} = useContext(BulbContext) ;
 function toggle(){
-   setBulbOn(!bulbOn);
+   setBulbOn(!bulbOn)
 }
 
 
