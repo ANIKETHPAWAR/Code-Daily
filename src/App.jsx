@@ -2,33 +2,38 @@ import { useState, useRef ,} from 'react'
 import { useEffect } from 'react';
 import { BrowserRouter,Routes,Route,Link , Outlet} from 'react-router-dom';
 import './App.css'
-//a clock with a start and stop
 function App() {
- const [currentCount,setCurrentCount] = useState(1)
- const timer = useRef();
-
-
-function startClock(){
-  let value =   setInterval(function(){
-        setCurrentCount(c => c + 1);
-    }, 1000);
-    timer.current = value;
-}
-function StopClock(){
-   clearInterval(timer.current);
-}
-
  return <div>
-    {currentCount}
-    <br />
-    <button onClick={startClock}>Start</button>
-    <button onClick={StopClock}>Stop</button>
-
+ <LightBulb/>
  </div>
 }
+function LightBulb() {
+   const [bulbOn,setBulbOn] = useState(true);
+
+   return <div>
+   <BulbState bulbOn = {bulbOn}/>
+   <ToggleBulbState bulbOn = {bulbOn} 
+   setBulbOn={setBulbOn}/>
+   </div>
+}
+
+function BulbState({bulbOn}){
+   
+ return <div> 
+ {bulbOn ? "BulbOn" : "Bulb off"}
+</div>
+}
+
+function ToggleBulbState({setBulbOn,bulbOn}){
+function toggle(){
+   setBulbOn(!bulbOn);
+}
 
 
-
+return <div> 
+<button onClick={toggle}>Bulb</button>
+</div>
+} 
 
 
 export default App
