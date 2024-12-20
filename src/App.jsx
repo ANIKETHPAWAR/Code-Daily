@@ -1,52 +1,16 @@
-import { useState, useRef ,useContext, createContext,} from 'react'
-
+import { useState, } from 'react'
+import { useFetch } from './hooks/useFetch'
 import './App.css'
-const BulbContext = createContext();
-function BulbProvider({children}){
-   const [bulbOn,setBulbOn] = useState(true);
-  return <BulbContext.Provider value={{
-      bulbOn: bulbOn,
-      setBulbOn: setBulbOn
-   }}>
-      {children}
-      </BulbContext.Provider>
-}
+
+
 function App() {
   
-
+const {finalData} = useFetch("https://official-joke-api.appspot.com/random_joke");
  return <div>
-  <BulbProvider>
- <LightBulb/>
- </BulbProvider>
-
+ {JSON.stringify(finalData)}
  </div>
 }
-function LightBulb() {
-   
-   return <div>
-   <BulbState />
-   <ToggleBulbState />
-   </div>
-}
 
-function BulbState(){
-  const {bulbOn} = useContext(BulbContext) ;
- return <div> 
- {bulbOn ? "BulbOn" : "Bulb off"}
-</div>
-}
-
-function ToggleBulbState(){
-   const {bulbOn,setBulbOn} = useContext(BulbContext) ;
-function toggle(){
-   setBulbOn(!bulbOn)
-}
-
-
-return <div> 
-<button onClick={toggle}>Bulb</button>
-</div>
-} 
 
 
 export default App
