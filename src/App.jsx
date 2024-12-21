@@ -1,40 +1,57 @@
-import { useState,useEffect } from 'react'
-import { usePrev } from './hooks/usePrev';
-
+import { useState } from 'react'
 import './App.css'
-const useDebounce = (value, delay) => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedValue(value);
-        }, delay);
-
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [value, delay]);
-
-    return debouncedValue;
-};
-
-
-
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { counterAtom } from './atoms/counter';
 
 function App() {
-  const [inputVal,setInputVal] =useState("");
-  const debouncedValue = useDebounce(inputVal,200)
-function change(e){
-    setInputVal(e.target.value)
-}
-useEffect(()=>{
-console.log("done")
-},[debouncedValue])
 
-  return(
-    <input type="text" onChange={change} />
+  return (
+    <RecoilRoot>
+     <Counter />
+    </RecoilRoot>
   )
 }
 
+function Counter() {
+
+  return <div>
+    <CurrentCount />
+    <Increase />
+    <Decrease />
+  </div>
+}
+
+function CurrentCount() {
+  const count = useRecoilValue(counterAtom);
+  return <div>
+    {count}
+  </div>
+}
+
+function Decrease() {
+
+  const setCount = useSetRecoilState(counterAtom);
+
+  function decrease() {
+    setCount(c => c - 1);
+  }
+
+  return <div>
+    <button onClick={decrease}>Decrease</button>
+  </div>
+}
+
+
+function Increase() {
+  const setCount = useSetRecoilState(counterAtom);
+
+  function increase() {
+    setCount(c => c + 1);
+  }
+
+  return <div>
+    <button onClick={increase}>Increase</button>
+  </div>
+}
 
 export default App
