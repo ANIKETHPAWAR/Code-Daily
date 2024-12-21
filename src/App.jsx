@@ -1,20 +1,38 @@
-import { useState, } from 'react'
+import { useState,useEffect } from 'react'
 import { usePrev } from './hooks/usePrev';
+
 import './App.css'
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+};
+
+
 
 
 function App() {
-  const [count,setCount ] = useState(0);
-  const prevCount = usePrev(count);
+  const [inputVal,setInputVal] =useState("");
+  const debouncedValue = useDebounce(inputVal,200)
+function change(e){
+    setInputVal(e.target.value)
+}
+useEffect(()=>{
+console.log("done")
+},[debouncedValue])
 
   return(
-    <>
-    <p>current count {count}</p>
-    <p>previous value was {prevCount}</p>
-    <button onClick={() => setCount(count + 1)}>Increase</button>
-
-
-    </>
+    <input type="text" onChange={change} />
   )
 }
 
