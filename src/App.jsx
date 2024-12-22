@@ -2,56 +2,33 @@ import { useState } from 'react'
 import './App.css'
 import { RecoilRoot, atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { counterAtom } from './atoms/counter';
+import { jobsAtom, messagingAtom, networkAtom, notificationsAtom } from './atoms/atoms';
 
 function App() {
-
   return (
-    <RecoilRoot>
-     <Counter />
-    </RecoilRoot>
-  )
+  <RecoilRoot>
+    <MainApp/>
+  </RecoilRoot>)
 }
 
-function Counter() {
+function MainApp(){
+  
+const networkNotificationCount = useRecoilValue(networkAtom);
+const jobsAtomCount = useRecoilValue(jobsAtom);
+const messagingAtomCount = useRecoilValue(messagingAtom)
+const notificationAtom = useRecoilValue(notificationsAtom)
+return (
+ <>
+ <button>Home </button>
+ <button>My network ({networkNotificationCount >= 100 ? "99+" : networkNotificationCount})</button>
+ <button>Jobs ({jobsAtomCount})</button>
+ <button>Messaging ({messagingAtomCount})</button>
+ <button>Notifications ({notificationAtom})</button>
+ <button>Me </button>
 
-  return <div>
-    <CurrentCount />
-    <Increase />
-    <Decrease />
-  </div>
+ </>
+)
 }
 
-function CurrentCount() {
-  const count = useRecoilValue(counterAtom);
-  return <div>
-    {count}
-  </div>
-}
-
-function Decrease() {
-
-  const setCount = useSetRecoilState(counterAtom);
-
-  function decrease() {
-    setCount(c => c - 1);
-  }
-
-  return <div>
-    <button onClick={decrease}>Decrease</button>
-  </div>
-}
-
-
-function Increase() {
-  const setCount = useSetRecoilState(counterAtom);
-
-  function increase() {
-    setCount(c => c + 1);
-  }
-
-  return <div>
-    <button onClick={increase}>Increase</button>
-  </div>
-}
 
 export default App
