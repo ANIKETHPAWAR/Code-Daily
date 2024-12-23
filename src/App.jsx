@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import './App.css'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { counterAtom } from './atoms/counter';
-import { jobsAtom, messagingAtom, networkAtom, notificationsAtom, totalCountSelector } from './atoms/atoms';
+import { RecoilRoot, atom, useRecoilValue, useRecoilState } from 'recoil';
+
+import {  notifications,  totalCountSelector } from './atoms/atoms';
 
 function App() {
   return (
@@ -13,18 +13,15 @@ function App() {
 
 function MainApp(){
   
-const networkNotificationCount = useRecoilValue(networkAtom);
-const jobsAtomCount = useRecoilValue(jobsAtom);
-const messagingAtomCount = useRecoilValue(messagingAtom)
-const notificationAtom = useRecoilValue(notificationsAtom)
+const [allCount,setAllCount] = useRecoilState(notifications)
 const totalCount = useRecoilValue(totalCountSelector);
 return (
  <>
  <button>Home </button>
- <button>My network ({networkNotificationCount >= 100 ? "99+" : networkNotificationCount})</button>
- <button>Jobs ({jobsAtomCount})</button>
- <button>Messaging ({messagingAtomCount})</button>
- <button>Notifications ({notificationAtom})</button>
+ <button>My network ({allCount.networks >= 100 ? "99+" : networkNotificationCount})</button>
+ <button>Jobs ({allCount.jobs})</button>
+ <button>Messaging ({allCount.messaging})</button>
+ <button>Notifications ({allCount.notifications})</button>
  <button>Me ({totalCount}) </button>
 
  </>
